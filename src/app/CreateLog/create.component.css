@@ -1,0 +1,76 @@
+/* Style global pour le composant de création de compte */
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Style pour le conteneur du formulaire */
+.create-container {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Style pour le titre du formulaire */
+.create-container h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  color: #333333;
+}
+
+/* Style pour les champs de saisie */
+.create-container input[type="text"],
+.create-container input[type="password"] {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+/* Style pour le bouton de création */
+.create-container button {
+  width: 100%;
+  padding: 0.75rem;
+  background: #007bff;
+  border: none;
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.create-container button:hover {
+  background: #0056b3;
+}
+
+/* Style responsive pour les petits écrans */
+@media (max-width: 480px) {
+  .create-container {
+    padding: 1.5rem;
+  }
+
+  .create-container h2 {
+    font-size: 1.25rem;
+  }
+
+  .create-container input[type="text"],
+  .create-container input[type="password"] {
+    font-size: 0.875rem;
+  }
+
+  .create-container button {
+    font-size: 0.875rem;
+  }
+}

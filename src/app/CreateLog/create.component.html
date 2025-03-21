@@ -1,0 +1,16 @@
+<div style="text-align: center; margin-top: 50px;">
+  <h2>Créer un compte</h2>
+  <form (ngSubmit)="onCreate()">
+    <mat-form-field appearance="fill">
+      <mat-label>Nom d'utilisateur</mat-label>
+      <input matInput [(ngModel)]="user" name="user" required>
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="fill">
+      <mat-label>Mot de passe</mat-label>
+      <input matInput [(ngModel)]="password" name="password" type="password" required>
+    </mat-form-field>
+    <br>
+    <button mat-raised-button color="primary" (click)="onCreate()">Créer un compte</button>
+  </form>
+</div>

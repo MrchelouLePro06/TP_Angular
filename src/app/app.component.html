@@ -1,0 +1,42 @@
+<mat-toolbar class="custom-toolbar" *ngIf="showToolbar">
+  <mat-toolbar-row>
+    <span class="toolbar-title">My Application</span>
+    <span class="spacer"></span>
+  </mat-toolbar-row>
+  <mat-toolbar-row>
+    <button mat-button routerLink="/home">
+      <mat-icon>home</mat-icon>
+    </button>
+    <button mat-button (click)="opened = !opened">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <button mat-button (click)="Logout()">
+      <mat-icon>account_circle</mat-icon>
+    </button>    
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav [(opened)]="opened" mode="push" position="start">
+    <mat-list>
+      <mat-list-item><a routerLink="/add">Ajouter un Devoir</a></mat-list-item>
+    </mat-list>
+  </mat-sidenav>
+  <!--
+  <h1>
+    <nav>
+      <a routerLink="/home">{{titre}}</a>
+    </nav>
+  </h1>
+-->
+<button mat-raised-button color="primary" (click)="genererDonneesDeTest()" *ngIf="showToolbar">
+  PEUPLER BD AVEC DONNEES DE TEST
+</button>
+  <!-- On va afficher le composant correspondant 
+       à la route active
+  -->
+  <router-outlet></router-outlet>
+</mat-sidenav-container>
+
+
+

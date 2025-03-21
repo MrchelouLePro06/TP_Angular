@@ -1,0 +1,21 @@
+.custom-toolbar {
+    background-color: #4caf50;
+    color: red;
+}
+.spacer {
+    flex: 1 1 auto;
+}
+
+.toolbar-title {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+mat-sidenav-container {
+    height: 100%;
+    background-color: #ffffff;
+}
+mat-sidenav{
+    width: 300px;
+    background-color: #c28e8e;
+}
