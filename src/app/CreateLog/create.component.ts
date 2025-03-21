@@ -28,6 +28,8 @@ export class CreateComponent {
     console.log('Tentative de création de compte avec', this.user, this.password);
     this.authService.addValidUser(this.user, this.password);
     alert('Compte créé avec succès');
+    this.authService.getValidUsers();
+    console.log(this.authService.getValidUsers());
     this.router.navigate(['/login']);
   }
 }
