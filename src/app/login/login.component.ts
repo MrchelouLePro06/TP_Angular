@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { AuthService } from '../shared/authen.component';
 import { AppComponent } from '../app.component';
+import { SetUser } from '../user/user.component';
 
 @Component({
   selector: 'app-login',
@@ -24,9 +25,12 @@ export class LoginComponent {
   password = '';
   constructor(private authService: AuthService, private router: Router, private appComponent: AppComponent) {}
 
-  onLogin(): void {
+  async onLogin(): Promise<void> {
     console.log('Tentative de connexion avec', this.user, this.password);
-    if (this.authService.login(this.user, this.password)) {
+
+    const success = await this.authService.login(this.user, this.password);
+
+    if (success) {
       console.log('Connexion réussie, redirection vers /home');
       this.appComponent.islogged();
       this.router.navigate(['/home']);
@@ -35,7 +39,8 @@ export class LoginComponent {
       alert('Nom d\'utilisateur ou mot de passe incorrect');
     }
   }
-  CreateLog(){
+
+  CreateLog() {
     this.router.navigate(['/create']);
   }
 }

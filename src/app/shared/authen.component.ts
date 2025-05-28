@@ -1,42 +1,41 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+
+@Injectable({ providedIn: 'root' })
 export class AuthService {
-    private validUsers = [
-        { user: 'admin', password: 'admin' }
-    ];
-    private authentification = false;
+  private tokenKey = 'auth_token';
 
-    getValidUsers(): any[] {
-        return this.validUsers;
-    }
-    addValidUser(user: string, password: string): void {
-        const userExist = this.validUsers.find(u => u.user === user);
-        if (!userExist) {
-        this.validUsers.push({ user, password });
-        console.log('Utilisateur ajouté avec succès.');
-        } else {
-            console.log('Cet utilisateur existe déjà.');
-        }
-    }
-    isLoggedIn(): boolean {
-        return this.authentification;
-    }
-    login(user: string, password: string): boolean {
-        const validUser = this.validUsers.find(u => u.user === user && u.password === password);
-        this.authentification = !!validUser;
-        if (this.authentification) {
-        console.log('Connexion réussie. Bienvenue ', user+'!');
-        } else {
-        console.log('Échec de la connexion. Utilisateur ou mot de passe incorrect.');
-        }
-        console.log('Authentification : ', this.authentification);
-        return this.authentification;
-    }
+  constructor(private http: HttpClient) {}
 
-    logout(): void {
-        this.authentification = false;
+  register(username: string, password: string) {
+    return this.http.post('/api/auth/register', { username, password });
+  }
+  async login(username: string, password: string): Promise<boolean> {
+    try {
+        const response = await firstValueFrom(
+            this.http.post<{ token: string }>('/api/auth/login', { username, password })
+        );
+        if (response && response.token) {
+            localStorage.setItem(this.tokenKey, response.token);
+            return true;
+        }
+        return false;
+    } catch (error) {
+        return false;
     }
+}
+
+  logout() {
+    localStorage.removeItem(this.tokenKey);
+  }
+
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem(this.tokenKey);
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem(this.tokenKey);
+  }
 }

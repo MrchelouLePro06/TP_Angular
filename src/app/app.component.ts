@@ -9,11 +9,12 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
 import { AuthService } from './shared/authen.component';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
  
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, MatButtonModule, MatDividerModule, 
-    MatIconModule,RouterLink,MatToolbarModule,MatSidenavModule,MatListModule,CommonModule],
+    MatIconModule,RouterLink,MatToolbarModule,MatSidenavModule,MatListModule,CommonModule,HttpClientModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
@@ -32,9 +33,10 @@ export class AppComponent {
     this.authService.logout();
     this.showToolbar = false;
     window.location.href = '/login';
+    console.log("Server started");
   }
 
-  genererDonneesDeTest() {
+  /*genererDonneesDeTest() {
     console.log("Génération des données de test");
     //this.assignmentsService.peuplerBD()
 
@@ -45,5 +47,5 @@ export class AppComponent {
       // Je navigue vers la page qui affiche la liste des assignments
       window.location.href = '/home';
     });
-  }
+  }*/
 }

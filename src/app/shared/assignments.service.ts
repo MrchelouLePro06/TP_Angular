@@ -3,7 +3,7 @@ import { Assignment } from '../assignments/assignment.model';
 import { forkJoin, Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
-import { bdInitialAssignments } from './data';
+//import { bdInitialAssignments } from './data';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +23,8 @@ assignments:Assignment[] = [];
     // On utilise la methode get du service HttpClient
     // pour récupérer les données depuis le backend
     const URI = this.backendURL + '?page=' + page + '&limit=' + limit;
-    return this.http.get<Assignment[]>(URI);
+    //return this.http.get<Assignment[]>(URI);
+    return of([])
   }
 
   getAssignment(_id:string):Observable<Assignment|undefined> {
@@ -53,7 +54,7 @@ assignments:Assignment[] = [];
   }
 
   // Pour la génération de données de test
-  peuplerBD() {
+  /*peuplerBD() {
     bdInitialAssignments.forEach(a => {
       // on va construire un nouvel assignment
       let nouvelAssignment = new Assignment();
@@ -89,5 +90,5 @@ assignments:Assignment[] = [];
     // quand toutes les insertions sont terminées
     return forkJoin(appelsVersAddAssignment);
   }
- 
+ */
 }
