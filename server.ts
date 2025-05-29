@@ -22,7 +22,7 @@ async function createAdminIfNotExists() {
     console.log('Admin déjà existant');
   }
 }
-mongoose.connect('mongodb://localhost/bdAngular')//mongodb://127.0.0.1:27017/bdAngular mongodb://localhost/bdAngular
+mongoose.connect('mongodb://localhost/bdAngular')
   .then(async () => {
     console.log('MongoDB connecté');
     await createAdminIfNotExists();
@@ -34,4 +34,6 @@ app.get("/*", function (req: Request, res: Response) {
   res.sendFile(path.join(__dirname + "/dist/assignment-app/browser/index.html"));
 });
 
-app.listen(process.env['PORT'] || 8081);
+app.listen(process.env['PORT'] || 8081, () => {
+  console.log("Server started on port " + (process.env['PORT'] || 8081));
+});

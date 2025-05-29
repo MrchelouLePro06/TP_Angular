@@ -63,7 +63,8 @@
               "buildTarget": "assignment-app:build:production"
             },
             "development": {
-              "buildTarget": "assignment-app:build:development"
+              "buildTarget": "assignment-app:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
