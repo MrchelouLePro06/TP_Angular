@@ -29,17 +29,13 @@ export class CreateComponent {
     console.log('Tentative de création de compte avec', this.user, this.password);
     this.authService.register(this.user, this.password).subscribe({
     next: () => {
+      console.log('Tentative reussi');
       this.router.navigate(['/login']);
     },
     error: err => {
       alert('Erreur lors de la création du compte');
       console.error(err);
     }
-  });
-  /*
-    console.log("Server started");
-    const newUser = new SetUser(this.user, this.password, false);
-    newUser.insertUser();
-    this.router.navigate(['/login']);*/
+    });
   }
 }

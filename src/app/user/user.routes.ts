@@ -18,10 +18,10 @@ router.post('/register', async (req: Request, res: Response) => {
 
     const newUser = new User({ username, password: hashedPassword });
     await newUser.save();
-
+    console.log("Utilisateur créé et réponse envoyée");
     return res.status(201).json({ message: 'User created' });
   } catch (err) {
-    return res.status(500).json({ message: 'Server error' });
+    return 0;
   }
 });
 
@@ -37,11 +37,10 @@ router.post('/login', async (req: Request, res: Response) => {
     if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
     const token = jwt.sign({ userId: user['_id'] }, jwtSecret, { expiresIn: '1h' });
-
+    console.log("Utilisateur connecté et token généré");
     return res.json({ token });
   } catch (err) {
     return res.status(500).json({ message: 'Server error' });
   }
 });
-export default router;
 module.exports = router;
