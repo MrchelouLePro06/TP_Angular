@@ -45,7 +45,7 @@ async function importData() {
   console.log('user importés');
 }
 
-mongoose.connect('mongodb://localhost/bdAngular')
+mongoose.connect('https://tp-angular.onrender.com')// mongodb://localhost/bdAngular
   .then(async () => {
     console.log('MongoDB connecté');
     await importData();
@@ -156,6 +156,6 @@ app.get("/*", function (req: Request, res: Response) {
   res.sendFile(path.join(__dirname + "/dist/assignment-app/browser/index.html"));
 });
 
-app.listen(process.env['PORT'] || 8081, () => {
-  console.log("Server started on port " + (process.env['PORT'] || 8081));
+app.listen(process.env['PORT'] || 10000, () => {//8081
+  console.log("Server started on port " + (process.env['PORT'] || 10000));
 });

@@ -7,7 +7,8 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class AssignmentsService {
-  backendURL = 'http://localhost:8081/api/assignments';
+  //backendURL = 'http://localhost:8081/api/assignments';
+  backendURL = 'https://tp-angular.onrender.com/api/assignments'; // URL du backend pour les assignments
 
   constructor(private http: HttpClient) { }
 
