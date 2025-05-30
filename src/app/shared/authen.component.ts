@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 
 
 @Injectable({ providedIn: 'root' })
@@ -38,4 +38,7 @@ export class AuthService {
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
   }
+  getCurrentUser(): Observable<any> {
+  return this.http.get<any>('/api/auth/me');
+}
 }

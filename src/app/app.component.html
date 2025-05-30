@@ -19,7 +19,7 @@
 <mat-sidenav-container>
   <mat-sidenav [(opened)]="opened" mode="push" position="start">
     <mat-list>
-      <mat-list-item><a routerLink="/add">Ajouter un Devoir</a></mat-list-item>
+      <mat-list-item *ngIf="isAdmin"><a routerLink="/add">Ajouter un Devoir</a></mat-list-item>
     </mat-list>
   </mat-sidenav>
   <!--

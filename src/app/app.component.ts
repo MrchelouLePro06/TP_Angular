@@ -23,6 +23,7 @@ export class AppComponent {
   ajoutdevoir="Ajouter un devoir";
   opened=false;
   showToolbar = false;
+  isAdmin = false;
   constructor(private assignmentsService: AssignmentsService, private authService: AuthService) {}
 
   islogged(): void{
@@ -30,22 +31,16 @@ export class AppComponent {
   }
 
   Logout(): void {
+    localStorage.removeItem('auth_token');
     this.authService.logout();
     this.showToolbar = false;
     window.location.href = '/login';
     console.log("Server started");
   }
 
-  /*genererDonneesDeTest() {
-    console.log("Génération des données de test");
-    //this.assignmentsService.peuplerBD()
-
-    this.assignmentsService.peuplerBDavecForkJoin()
-    .subscribe(() => {
-      console.log("Toutes les données de test ont été insérées");
-
-      // Je navigue vers la page qui affiche la liste des assignments
-      window.location.href = '/home';
-    });
-  }*/
+ngOnInit() {
+  this.authService.getCurrentUser().subscribe(user => {
+    this.isAdmin = user && user.admin === true;
+  });
+}
 }

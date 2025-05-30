@@ -129,6 +129,29 @@ app.get('/api/assignments/:id', async (req: Request, res: Response) => {
   }
 });
 
+app.post('/api/users', async (req: Request, res: Response) => {
+  try {
+    const { username, password, admin } = req.body;
+    if (!username || !password) {
+      return res.status(400).json({ message: "Username et password requis" });
+    }
+    // Vérifie si l'utilisateur existe déjà
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      return res.status(409).json({ message: "Utilisateur déjà existant" });
+    }
+    const user = new User({ username, password,admin:false});
+    await user.save();
+    return res.status(201).json({ message: "Utilisateur créé", user });
+  } catch (err) {
+    return res.status(500).json({ message: "Erreur lors de la création de l'utilisateur" });
+  }
+});
+
+app.get('/api/auth/me', async (req:Request, res:Response) => {
+  res.json({ admin: true });
+});
+
 app.get("/*", function (req: Request, res: Response) {
   res.sendFile(path.join(__dirname + "/dist/assignment-app/browser/index.html"));
 });
