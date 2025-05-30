@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Assignment } from '../assignment.model';
+import { Assignment } from '../assignment.class';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';

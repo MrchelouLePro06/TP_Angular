@@ -10,7 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
-import { Assignment } from './assignment.model';
+import { Assignment } from './assignment.class';
 import { AssignmentDetailComponent } from './assignment-detail/assignment-detail.component';
 import { AssignmentsService } from '../shared/assignments.service';
 import { Router, RouterLink } from '@angular/router';
