@@ -19,8 +19,9 @@ app.use(cors());
 async function createAdminIfNotExists() {
   const existingAdmin = await User.findOne({ username: 'admin' });
   if (!existingAdmin) {
-    const hashedPassword = await bcrypt.hash('admin', 10);
-    const admin = new User({ username: 'admin', password: hashedPassword, admin: true });
+    //const hashedPassword = await bcrypt.hash('admin', 10);
+    //const admin = new User({ username: 'admin', password: hashedPassword, admin: true });
+    const admin = new User({ username: 'admin', password: 'admin', admin: true });
     await admin.save();
     console.log('Admin créé');
   } else {
@@ -28,7 +29,9 @@ async function createAdminIfNotExists() {
   }
 }
 
-/*async function importData() {
+async function importData() {
+  await Assignment.deleteMany({});
+  await User.deleteMany({});
   const assignments = JSON.parse(fs.readFileSync('./src/data/assignment.json', 'utf-8'));
   await Assignment.insertMany(assignments);
   console.log('assignments importés');
@@ -36,36 +39,13 @@ async function createAdminIfNotExists() {
   const user = JSON.parse(fs.readFileSync('./src/data/user.json', 'utf-8'));
   await User.insertMany(user);
   console.log('user importés');
-}*/
-
-async function importData() {
-  const assignments = JSON.parse(fs.readFileSync('./src/data/assignment.json', 'utf-8'));
-  await Assignment.deleteMany({});
-  await Assignment.insertMany(assignments);
-  console.log('assignments importés');
-
-  let users = JSON.parse(fs.readFileSync('./src/data/user.json', 'utf-8'));
-  await User.deleteMany({});
-  users = await Promise.all(users.map(async (user: any) => {
-    if (!user.password.startsWith('$2b$')) {
-      user.password = await bcrypt.hash(user.password, 10);
-    }
-    return user;
-  }));
-
-  try {
-    await User.insertMany(users);
-    console.log('user importés');
-  } catch (err) {
-    console.error('Erreur lors de l\'import des users :', err);
-  }
 }
 
 mongoose.connect('mongodb://localhost/bdAngular')
   .then(async () => {
     console.log('MongoDB connecté');
-    await createAdminIfNotExists();
     await importData();
+    await createAdminIfNotExists();
   })
   .catch((err: any) => console.error(err));
 app.use('/api/auth', authRoutes);
