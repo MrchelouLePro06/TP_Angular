@@ -45,7 +45,7 @@ async function importData() {
   console.log('user importés');
 }
 
-mongoose.connect('mongodb+srv://mehdimansourpro:<mongodb>@cluster0.al2dcic.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')//mongodb://localhost/bdAngular
+mongoose.connect('mongodb+srv://mehdimansourpro:mongodb@cluster0.al2dcic.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')//mongodb://localhost/bdAngular
   .then(async () => {
     console.log('MongoDB connecté');
     await importData();
