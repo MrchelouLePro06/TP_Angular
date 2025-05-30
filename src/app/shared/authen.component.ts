@@ -12,6 +12,7 @@ export class AuthService {
   register(username: string, password: string) {
     return this.http.post('/api/auth/register', { username, password });
   }
+
   async login(username: string, password: string): Promise<boolean> {
     try {
         const response = await firstValueFrom(
@@ -38,7 +39,19 @@ export class AuthService {
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
   }
+
   getCurrentUser(): Observable<any> {
-  return this.http.get<any>('/api/auth/me');
-}
+    // Utilisez l'URL absolue si vous n'avez pas de proxy local
+    return this.http.get<any>('https://tp-angular.onrender.com/api/auth/me');
+  }
+
+  // Ajoutez cette méthode pour vérifier si l'utilisateur est admin
+  async checkAdmin(): Promise<void> {
+    try {
+      const user = await firstValueFrom(this.getCurrentUser());
+      console.log('Utilisateur courant:', user);
+    } catch (err) {
+      console.error('Erreur lors de la récupération de l\'utilisateur courant', err);
+    }
+  }
 }

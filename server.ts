@@ -7,7 +7,7 @@ const { User } = require('./src/app/user/user.model');
 import { Assignment } from './src/app/assignments/assignment.model';
 import type { Request, Response } from "express";
 const jwt = require('jsonwebtoken');
-const SECRET = 'votre_secret'
+const SECRET = 'secret'
 import * as fs from 'fs';
 
 declare module "express" {
@@ -18,7 +18,34 @@ declare module "express" {
 const app = express();
 app.use(express.json());
 const cors = require('cors');
-app.use(cors());
+/*app.use(cors({
+  origin: ['http://localhost:4200'],
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  exposedHeaders: ['Authorization']
+}));*/
+
+app.use((req: Request, res: Response, next: () => void) => {
+  const allowedOrigins = [
+    'http://localhost:4200',
+    'https://tp-angular-front.onrender.com',
+    'https://tp-angular.onrender.com'
+  ];
+  const origin = req.headers.origin as string;
+  if (allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  } else {
+    console.log('Origine refusée ou inconnue:', origin);
+  }
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  res.header('Access-Control-Expose-Headers', 'Authorization');
+  res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(204);
+  }
+  return next();
+});
 
 async function createAdminIfNotExists() {
   const existingAdmin = await User.findOne({ username: 'admin' });
@@ -28,8 +55,10 @@ async function createAdminIfNotExists() {
     const admin = new User({ username: 'admin', password: 'admin', admin: true });
     await admin.save();
     console.log('Admin créé');
+    return;
   } else {
     console.log('Admin déjà existant');
+    return;
   }
 }
 
@@ -56,19 +85,24 @@ app.use('/api/auth', authRoutes);
 
 function isAdmin(req: Request, res: Response, next: Function) {
   const authHeader = req.headers['authorization'];
+  console.log('Authorization header reçu:', authHeader);
   if (!authHeader) return res.status(401).json({ message: "Token manquant" });
 
   const token = authHeader.split(' ')[1];
+  console.log('Token reçu:', token); // <-- Ajouté
+  console.log('Secret utilisé:', SECRET); // <-- Ajouté
   if (!token) return res.status(401).json({ message: "Token manquant" });
 
   try {
     const decoded = jwt.verify(token, SECRET);
+    console.log('Token décodé:', decoded); // <-- Ajouté
     if (decoded.admin) {
       req.user = decoded;
       return next();
     }
     return res.status(403).json({ message: "Accès réservé aux administrateurs" });
   } catch (err) {
+    console.error('Erreur de vérification JWT:', err); // <-- Ajouté
     return res.status(401).json({ message: "Token invalide" });
   }
 }
@@ -106,6 +140,10 @@ app.put('/api/assignments/:id', isAdmin, async (req: Request, res: Response) => 
 });
 
 app.delete('/api/assignments/:id', isAdmin, async (req: Request, res: Response) => {
+  // Log pour debug
+  console.log('DELETE /api/assignments/:id');
+  console.log('Origin:', req.headers.origin);
+  console.log('Authorization header reçu:', req.headers['authorization']);
   try {
     const assignment = await Assignment.findByIdAndDelete(req.params['id']);
     if (!assignment) {

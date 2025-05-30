@@ -37,7 +37,12 @@ router.post('/login', async (req: Request, res: Response) => {
     const isMatch = password === user['password'];
     if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
-    const token = jwt.sign({ userId: user['_id'] }, jwtSecret, { expiresIn: '1h' });
+    // Inclure admin dans le token
+    const token = jwt.sign(
+      { userId: user['_id'], admin: user['admin'] },
+      jwtSecret,
+      { expiresIn: '1h' }
+    );
     console.log("Utilisateur connecté et token généré");
     return res.json({ token });
   } catch (err) {
