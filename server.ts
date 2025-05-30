@@ -9,6 +9,7 @@ import { Matiere } from './src/app/models/matiere.model';
 import { Eleve } from './src/app/models/eleve.model';
 import { Assignment } from './src/app/assignments/assignment.model';
 import type { Request, Response } from "express";
+import * as fs from 'fs';
 
 const app = express();
 app.use(express.json());
@@ -27,57 +28,44 @@ async function createAdminIfNotExists() {
   }
 }
 
-async function seed() {
-  await mongoose.connect('mongodb://localhost/bdAngular');
-  console.log('Connecté à MongoDB');
+/*async function importData() {
+  const assignments = JSON.parse(fs.readFileSync('./src/data/assignment.json', 'utf-8'));
+  await Assignment.insertMany(assignments);
+  console.log('assignments importés');
 
-  // Clear existing
-  await Prof.deleteMany({});
-  await Matiere.deleteMany({});
-  await Eleve.deleteMany({});
+  const user = JSON.parse(fs.readFileSync('./src/data/user.json', 'utf-8'));
+  await User.insertMany(user);
+  console.log('user importés');
+}*/
+
+async function importData() {
+  const assignments = JSON.parse(fs.readFileSync('./src/data/assignment.json', 'utf-8'));
   await Assignment.deleteMany({});
+  await Assignment.insertMany(assignments);
+  console.log('assignments importés');
 
-  // Profs
-  const prof1 = await new Prof({ nom: 'Jean Dupont', email: 'jean@school.com' }).save();
-  const prof2 = await new Prof({ nom: 'Marie Curie', email: 'marie@school.com' }).save();
+  let users = JSON.parse(fs.readFileSync('./src/data/user.json', 'utf-8'));
+  await User.deleteMany({});
+  users = await Promise.all(users.map(async (user: any) => {
+    if (!user.password.startsWith('$2b$')) {
+      user.password = await bcrypt.hash(user.password, 10);
+    }
+    return user;
+  }));
 
-  // Matières
-  const bd = await new Matiere({ nom: 'base de données', prof: prof1._id }).save();
-  const os = await new Matiere({ nom: 'OS', prof: prof2._id }).save();
-
-  // Éléves
-  const eleve1 = await new Eleve({ nom: 'Alice', email: 'alice@eleve.com', classe: 'M1 Informatique' }).save();
-  const eleve2 = await new Eleve({ nom: 'Bob', email: 'bob@eleve.com', classe: 'M1 Informatique' }).save();
-
-  // Assignements
-  await new Assignment({
-    nom: 'TP base de données',
-    dateDeRendu: new Date('2025-06-01'),
-    matiere: bd._id,
-    notes : [
-      {eleve: eleve1._id,note: 12,rendu: true},
-      {eleve: eleve2._id, note: 19,rendu: true}
-    ]
-  }).save();
-
-  await new Assignment({
-    nom: 'TP OS',
-    dateDeRendu: new Date('2025-06-03'),
-    matiere: os._id,
-    notes : [
-      {eleve: eleve1._id,note: 15,rendu: true},
-      {eleve: eleve2._id, note: null,rendu: false}
-    ]
-  }).save();
-
-  console.log('Données insérées !');
+  try {
+    await User.insertMany(users);
+    console.log('user importés');
+  } catch (err) {
+    console.error('Erreur lors de l\'import des users :', err);
+  }
 }
 
 mongoose.connect('mongodb://localhost/bdAngular')
   .then(async () => {
     console.log('MongoDB connecté');
     await createAdminIfNotExists();
-    //await seed();
+    await importData();
   })
   .catch((err: any) => console.error(err));
 app.use('/api/auth', authRoutes);
