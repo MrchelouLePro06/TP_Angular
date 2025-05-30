@@ -9,7 +9,7 @@ export class SetUser{
         public password: string,
         public admin: boolean
     ) {}
-
+/*
 async insertUser() {
   try {
     await mongoose.connect('mongodb://localhost/bdAngular');
@@ -31,6 +31,6 @@ async insertUser() {
     console.error('Erreur:', err);
   }
   mongoose.connection.close();
-}
+}*/
 }
 

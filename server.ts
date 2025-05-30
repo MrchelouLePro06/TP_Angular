@@ -9,7 +9,6 @@ import { Matiere } from './src/app/models/matiere.model';
 import { Eleve } from './src/app/models/eleve.model';
 import { Assignment } from './src/app/assignments/assignment.model';
 import type { Request, Response } from "express";
-import { notDeepStrictEqual } from 'assert';
 
 const app = express();
 app.use(express.json());
@@ -72,14 +71,13 @@ async function seed() {
   }).save();
 
   console.log('Données insérées !');
-  process.exit();
 }
 
 mongoose.connect('mongodb://localhost/bdAngular')
   .then(async () => {
     console.log('MongoDB connecté');
     await createAdminIfNotExists();
-    await seed();
+    //await seed();
   })
   .catch((err: any) => console.error(err));
 app.use('/api/auth', authRoutes);
