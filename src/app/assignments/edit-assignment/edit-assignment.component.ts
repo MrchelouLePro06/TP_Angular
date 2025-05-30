@@ -28,6 +28,7 @@ export class EditAssignmentComponent implements OnInit {
   // Pour les champs de formulaire
   nomAssignment = '';
   dateDeRendu?: Date = undefined;
+  note?: number;
  
   constructor(
     private assignmentsService: AssignmentsService,
@@ -46,6 +47,7 @@ export class EditAssignmentComponent implements OnInit {
       if (this.assignment) {
         this.nomAssignment = this.assignment.nom;
         this.dateDeRendu = this.assignment.dateDeRendu;
+        this.note = this.assignment.note;
       }
     });
   }
@@ -53,15 +55,13 @@ export class EditAssignmentComponent implements OnInit {
     if (!this.assignment) return;
     if (this.nomAssignment == '' || this.dateDeRendu === undefined) return;
  
-    // on récupère les valeurs dans le formulaire
     this.assignment.nom = this.nomAssignment;
     this.assignment.dateDeRendu = this.dateDeRendu;
+    this.assignment.note = this.note;
     this.assignmentsService
       .updateAssignment(this.assignment)
       .subscribe((message) => {
         console.log(message);
- 
-        // navigation vers la home page
         this.router.navigate(['/home']);
       });
   }

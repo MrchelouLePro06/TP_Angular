@@ -4,13 +4,17 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const authRoutes = require('./src/app/user/user.routes');
 const { User } = require('./src/app/user/user.model');
-import { Prof } from './src/app/models/prof.model';
-import { Matiere } from './src/app/models/matiere.model';
-import { Eleve } from './src/app/models/eleve.model';
 import { Assignment } from './src/app/assignments/assignment.model';
 import type { Request, Response } from "express";
+const jwt = require('jsonwebtoken');
+const SECRET = 'votre_secret'
 import * as fs from 'fs';
 
+declare module "express" {
+  export interface Request {
+    user?: any;
+  }
+}
 const app = express();
 app.use(express.json());
 const cors = require('cors');
@@ -49,6 +53,81 @@ mongoose.connect('mongodb://localhost/bdAngular')
   })
   .catch((err: any) => console.error(err));
 app.use('/api/auth', authRoutes);
+
+function isAdmin(req: Request, res: Response, next: Function) {
+  const authHeader = req.headers['authorization'];
+  if (!authHeader) return res.status(401).json({ message: "Token manquant" });
+
+  const token = authHeader.split(' ')[1];
+  if (!token) return res.status(401).json({ message: "Token manquant" });
+
+  try {
+    const decoded = jwt.verify(token, SECRET);
+    if (decoded.admin) {
+      req.user = decoded;
+      return next();
+    }
+    return res.status(403).json({ message: "Accès réservé aux administrateurs" });
+  } catch (err) {
+    return res.status(401).json({ message: "Token invalide" });
+  }
+}
+
+app.get('/api/assignments', async (req: Request, res: Response) => {
+  const page = parseInt(req.query['page'] as string) || 1;
+  const limit = parseInt(req.query['limit'] as string) || 10;
+
+  const aggregate = Assignment.aggregate([]);
+  Assignment.aggregatePaginate(aggregate, { page, limit })
+    .then(result => res.json(result))
+    .catch(err => res.status(500).json({ message: err.message }));
+});
+
+app.post('/api/assignments', isAdmin, async (req: Request, res: Response) => {
+  try {
+    const assignment = new Assignment(req.body);
+    await assignment.save();
+    res.status(201).json({ message: "Assignment ajouté", assignment });
+  } catch (err) {
+    res.status(500).json({ message: "Erreur lors de l'ajout" });
+  }
+});
+
+app.put('/api/assignments/:id', isAdmin, async (req: Request, res: Response) => {
+  try {
+    const assignment = await Assignment.findByIdAndUpdate(req.params['id'], req.body, { new: true });
+    if (!assignment) {
+      return res.status(404).json({ message: "Assignment non trouvé" });
+    }
+    return res.json({ message: "Assignment modifié", assignment });
+  } catch (err) {
+    return res.status(500).json({ message: "Erreur lors de la modification" });
+  }
+});
+
+app.delete('/api/assignments/:id', isAdmin, async (req: Request, res: Response) => {
+  try {
+    const assignment = await Assignment.findByIdAndDelete(req.params['id']);
+    if (!assignment) {
+      return res.status(404).json({ message: "Assignment non trouvé" });
+    }
+    return res.json({ message: "Assignment supprimé" });
+  } catch (err) {
+    return res.status(500).json({ message: "Erreur lors de la suppression" });
+  }
+});
+
+app.get('/api/assignments/:id', async (req: Request, res: Response) => {
+  try {
+    const assignment = await Assignment.findById(req.params['id']);
+    if (!assignment) {
+      return res.status(404).json({ message: "Assignment not found" });
+    }
+    return res.json(assignment);
+  } catch (err) {
+    return res.status(500).json({ message: "erreur" });
+  }
+});
 
 app.get("/*", function (req: Request, res: Response) {
   res.sendFile(path.join(__dirname + "/dist/assignment-app/browser/index.html"));

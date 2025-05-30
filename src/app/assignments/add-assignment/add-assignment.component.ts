@@ -21,6 +21,8 @@ export class AddAssignmentComponent  {
   // Pour le formulaire d'ajout
   nomDevoir = "";
   dateDeRendu!:Date;
+  matiere = "";
+  eleve = "";
 
   constructor(private assignmentsService:AssignmentsService, 
               private router:Router) {}
@@ -41,6 +43,8 @@ onSubmit(event:any) {
       a.nom = this.nomDevoir;
       a.dateDeRendu = this.dateDeRendu;
       a.rendu = false;
+      a.matiere = this.matiere;
+      a.eleve = this.eleve; 
 
       // On envoie l'assignment vers le service pour insertion
       this.assignmentsService.addAssignment(a)

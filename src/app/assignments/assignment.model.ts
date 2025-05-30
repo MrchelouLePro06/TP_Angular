@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
+import aggregatePaginate from 'mongoose-aggregate-paginate-v2';
 
 const AssignmentSchema: Schema = new Schema({
   nom: { type: String, required: true },
@@ -10,4 +11,5 @@ const AssignmentSchema: Schema = new Schema({
   remarque: { type: String, default: null }
 });
 
+AssignmentSchema.plugin(aggregatePaginate);
 export const Assignment = mongoose.model('Assignment', AssignmentSchema);

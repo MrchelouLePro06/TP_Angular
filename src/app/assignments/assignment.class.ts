@@ -2,8 +2,9 @@ export class Assignment {
   _id?: string;
   nom!: string;
   dateDeRendu!: Date;
-  rendu?: boolean;
+  matiere?: string;
+  eleve?: string;
   note?: number;
-  eleve?: any;
-  matiere?: any;
+  rendu!: boolean;
+  remarque?: string;
 }

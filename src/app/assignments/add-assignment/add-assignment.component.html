@@ -21,6 +21,22 @@
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
+    <mat-form-field>
+        <input matInput 
+               placeholder="Matière du devoir" 
+               [(ngModel)]="matiere"
+               name="matiere" 
+               required
+        >
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput 
+               placeholder="Nom de l'élève" 
+               [(ngModel)]="eleve"
+               name="eleve" 
+               required
+        >
+    </mat-form-field>
 
     <button mat-raised-button color="primary">
         Ajouter un devoir à rendre

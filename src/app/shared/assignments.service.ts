@@ -27,16 +27,27 @@ export class AssignmentsService {
 
   // Ajoute un nouvel assignment
   addAssignment(assignment: Assignment): Observable<string> {
-    return this.http.post<string>(this.backendURL, assignment);
-  }
+  return this.http.post<string>(
+    this.backendURL,
+    assignment,
+    { headers: { 'x-admin': 'true' } }
+  );
+}
 
   // Met à jour un assignment
-  updateAssignment(assignment: Assignment): Observable<string> {
-    return this.http.put<string>(this.backendURL, assignment);
-  }
+ updateAssignment(assignment: Assignment): Observable<string> {
+  return this.http.put<string>(
+    this.backendURL + '/' + assignment._id,
+    assignment,
+    { headers: { 'x-admin': 'true' } } 
+  );
+}
 
   // Supprime un assignment
   deleteAssignment(assignment: Assignment): Observable<string> {
-    return this.http.delete<string>(this.backendURL + '/' + assignment._id);
-  }
+  return this.http.delete<string>(
+    this.backendURL + '/' + assignment._id,
+    { headers: { 'x-admin': 'true' } }
+  );
+}
 }
