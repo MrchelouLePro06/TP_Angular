@@ -8,21 +8,29 @@ import {provideNativeDateAdapter} from '@angular/material/core';
 import { Assignment } from '../assignment.class';
 import { AssignmentsService } from '../../shared/assignments.service';
 import { Router } from '@angular/router';
+import {MatSelectModule} from '@angular/material/select';
+import { CommonModule } from '@angular/common';
 
 @Component({
   providers: [provideNativeDateAdapter()],
   selector: 'app-add-assignment',
-  imports: [FormsModule, MatInputModule, MatDatepickerModule, 
-    MatButtonModule, MatFormFieldModule],
+  imports: [CommonModule, FormsModule, MatInputModule, MatDatepickerModule, 
+    MatButtonModule, MatFormFieldModule, MatSelectModule],
   templateUrl: './add-assignment.component.html',
   styleUrl: './add-assignment.component.css'
 })
 export class AddAssignmentComponent  {
-  // Pour le formulaire d'ajout
   nomDevoir = "";
   dateDeRendu!:Date;
   matiere = "";
   eleve = "";
+
+matieres = [
+    {label: 'Web', value: 'Web'},
+    {label: 'Big Data', value: 'Big Data'},
+    {label: 'OS', value: 'OS'},
+  ];
+  selectedMatiere: string | null = null;
 
   constructor(private assignmentsService:AssignmentsService, 
               private router:Router) {}
@@ -31,9 +39,6 @@ export class AddAssignmentComponent  {
 onSubmit(event:any) {
     console.log(`On a soumis le formulaire nom = ${this.nomDevoir}, 
       dateDeRendu = ${this.dateDeRendu}`);
-
-      // On ne crée un nouvel assignment que si le formulaire est valide
-      // c'est-à-dire si le nom du devoir n'est pas vide et si la date de rendu est bien définie
       if(this.nomDevoir == "" || this.dateDeRendu == null) {
         console.log("Formulaire invalide");
         return;
@@ -43,16 +48,11 @@ onSubmit(event:any) {
       a.nom = this.nomDevoir;
       a.dateDeRendu = this.dateDeRendu;
       a.rendu = false;
-      a.matiere = this.matiere;
+      a.matiere = this.selectedMatiere || undefined;
       a.eleve = this.eleve; 
-
-      // On envoie l'assignment vers le service pour insertion
       this.assignmentsService.addAssignment(a)
       .subscribe(message => {
         console.log(message);
-
-       // On va naviguer vers la page qui affiche la liste des assignments
-       // c'est la route par défaut (/ ou /home)
        this.router.navigate(['/home']);
       });
   }

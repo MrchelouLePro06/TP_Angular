@@ -17,9 +17,6 @@ import { AuthService } from '../../shared/authen.component';
   styleUrl: './assignment-detail.component.css'
 })
 export class AssignmentDetailComponent implements OnInit{
-  // Passé sous forme d'attribut dynamique par le composant père
-  // dans la déclaration HTML du fils :
-  // <assignment-detail [assignmentTransmis]="assignmentSelectionne"></assignment-detail>
   @Input()
   assignmentTransmis?:Assignment;
 

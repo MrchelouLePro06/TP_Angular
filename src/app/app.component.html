@@ -9,10 +9,7 @@
     </button>
     <button mat-button (click)="opened = !opened">
       <mat-icon>menu</mat-icon>
-    </button>
-    <button mat-button (click)="Logout()">
-      <mat-icon>account_circle</mat-icon>
-    </button>    
+    </button>  
   </mat-toolbar-row>
 </mat-toolbar>
 
@@ -21,21 +18,10 @@
     <mat-list>
       <mat-list-item *ngIf="isAdmin"><a routerLink="/add">Ajouter un Devoir</a></mat-list-item>
     </mat-list>
+    <mat-list>
+      <mat-list-item><a (click)="Logout()">Déconnection</a></mat-list-item>
+    </mat-list>
   </mat-sidenav>
-  <!--
-  <h1>
-    <nav>
-      <a routerLink="/home">{{titre}}</a>
-    </nav>
-  </h1>
--->
-<!--
-<button mat-raised-button color="primary" (click)="genererDonneesDeTest()" *ngIf="showToolbar">
-  PEUPLER BD AVEC DONNEES DE TEST
-</button>
-On va afficher le composant correspondant 
-       à la route active
-  -->
   <router-outlet></router-outlet>
 </mat-sidenav-container>
 

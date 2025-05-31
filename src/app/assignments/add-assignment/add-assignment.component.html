@@ -22,12 +22,10 @@
         <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
     <mat-form-field>
-        <input matInput 
-               placeholder="Matière du devoir" 
-               [(ngModel)]="matiere"
-               name="matiere" 
-               required
-        >
+      <mat-label>Matière</mat-label>
+      <mat-select [(ngModel)]="selectedMatiere" name="matiere">
+        <mat-option *ngFor="let m of matieres" [value]="m.value">{{ m.label }}</mat-option>
+      </mat-select>
     </mat-form-field>
     <mat-form-field>
         <input matInput 
