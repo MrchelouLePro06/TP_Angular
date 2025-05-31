@@ -10,13 +10,13 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   register(username: string, password: string) {
-    return this.http.post('/api/auth/register', { username, password });
+    return this.http.post('https://tp-angular.onrender.com/api/auth/register', { username, password });
   }
 
   async login(username: string, password: string): Promise<boolean> {
     try {
         const response = await firstValueFrom(
-            this.http.post<{ token: string }>('/api/auth/login', { username, password })
+            this.http.post<{ token: string }>('https://tp-angular.onrender.com/api/auth/login', { username, password })
         );
         if (response && response.token) {
             localStorage.setItem(this.tokenKey, response.token);
