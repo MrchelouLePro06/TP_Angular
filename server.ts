@@ -119,12 +119,36 @@ app.get('/api/assignments', async (req: Request, res: Response) => {
 });
 
 app.post('/api/assignments', isAdmin, async (req: Request, res: Response) => {
+  console.log('POST /api/assignments appelé');
+  console.log('Body reçu:', req.body);
+  if (req.headers['authorization']) {
+    console.log('Authorization header:', req.headers['authorization']);
+  } else {
+    console.log('Authorization header: ABSENT');
+  }
   try {
+    // Pour debug, affichez les champs importants du body
+    console.log('Champs assignment:', {
+      nom: req.body.nom,
+      dateDeRendu: req.body.dateDeRendu,
+      matiere: req.body.matiere,
+      eleve: req.body.eleve,
+      note: req.body.note,
+      rendu: req.body.rendu,
+      remarque: req.body.remarque
+    });
     const assignment = new Assignment(req.body);
     await assignment.save();
+    console.log('Assignment sauvegardé avec succès');
     res.status(201).json({ message: "Assignment ajouté", assignment });
   } catch (err) {
-    res.status(500).json({ message: "Erreur lors de l'ajout" });
+    console.error('Erreur lors de l\'ajout d\'un assignment:', err);
+    if (err && (err as any).errors) {
+      Object.keys((err as any).errors).forEach(key => {
+        console.error(`Erreur sur le champ ${key}:`, (err as any).errors[key].message);
+      });
+    }
+    res.status(500).json({ message: "Erreur lors de l'ajout", error: err });
   }
 });
 
