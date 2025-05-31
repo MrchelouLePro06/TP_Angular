@@ -32,8 +32,9 @@ app.use((req: Request, res: Response, next: () => void) => {
     'https://tp-angular.onrender.com'
   ];
   const origin = req.headers.origin as string;
-  if (allowedOrigins.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin);
+  if (!origin || allowedOrigins.includes(origin)) {
+    // Autorise aussi si origin est undefined
+    res.header('Access-Control-Allow-Origin', origin || '*');
   } else {
     console.log('Origine refusée ou inconnue:', origin);
   }
@@ -190,9 +191,9 @@ app.get('/api/auth/me', async (req:Request, res:Response) => {
   res.json({ admin: true });
 });
 
-app.get("/*", function (req: Request, res: Response) {
-  res.sendFile(path.join(__dirname + "/dist/assignment-app/browser/index.html"));
-});
+// app.get("/*", function (req: Request, res: Response) {
+//   res.sendFile(path.join(__dirname + "/dist/assignment-app/browser/index.html"));
+// });
 
 app.listen(process.env['PORT'] || 10000, () => {//8081
   console.log("Server started on port " + (process.env['PORT'] || 10000));

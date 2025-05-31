@@ -41,7 +41,6 @@ export class AuthService {
   }
 
   getCurrentUser(): Observable<any> {
-    // Utilisez l'URL absolue si vous n'avez pas de proxy local
     return this.http.get<any>('https://tp-angular.onrender.com/api/auth/me');
   }
 
