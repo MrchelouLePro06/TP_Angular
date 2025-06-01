@@ -24,6 +24,7 @@ export class AddAssignmentComponent  {
   dateDeRendu!:Date;
   matiere = "";
   eleve = "";
+  remarque = "";
 
 matieres = [
     {label: 'Web', value: 'Web'},
@@ -50,6 +51,7 @@ onSubmit(event:any) {
       a.rendu = false;
       a.matiere = this.selectedMatiere || undefined;
       a.eleve = this.eleve; 
+      a.remarque = this.remarque;
       this.assignmentsService.addAssignment(a)
       .subscribe(message => {
         console.log(message);

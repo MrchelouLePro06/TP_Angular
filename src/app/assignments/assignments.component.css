@@ -1,6 +1,13 @@
-
 .rendu {
     color:green;
+}
+
+h2 {
+  margin: 20px;
+}
+
+p {
+  margin-left: 20px;
 }
 
 .nonRendu {
@@ -10,7 +17,13 @@
 }
 
 table {
-    width: 50%;
+  background-color: rgb(220, 210, 210);
+}
+
+.table-container {
+    width: 95%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+    margin: 24px auto;
   }
 
   .mat-column-nom {  
@@ -37,3 +50,11 @@ table {
     font-weight: bold;
   }
   
+  mat-paginator {
+    width: 97%;
+    background-color: rgb(231, 217, 217);
+  }
+
+  tr:hover {
+    background-color: rgb(231, 217, 217);
+  }

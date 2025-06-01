@@ -1,9 +1,11 @@
 @if(assignmentTransmis) {
-    <mat-card appearance="outlined">
+  <h1> Devoir de {{assignmentTransmis.eleve}} en {{assignmentTransmis.matiere}}</h1>
+    <mat-card class="card" appearance="outlined">
         <mat-card-header>
-          <mat-card-title> {{assignmentTransmis.nom}}</mat-card-title>
+          <mat-card-title> {{assignmentTransmis.nom}} : {{assignmentTransmis.note}}/20</mat-card-title>
           <mat-card-subtitle>A rendre le : {{assignmentTransmis.dateDeRendu| date:"d/M/YY"}}</mat-card-subtitle>
         </mat-card-header>
+        <mat-card-content> Remarques : {{assignmentTransmis.remarque}} </mat-card-content>
         <mat-card-actions class="containerBoutons">
                 @if(!assignmentTransmis.rendu) {
                     <mat-checkbox [checked]="assignmentTransmis.rendu"
@@ -13,10 +15,10 @@
                     </mat-checkbox>
                 }
                 <a routerLink="/assignments/{{assignmentTransmis._id}}/edit">
-                    <button mat-raised-button color="primary">EDIT</button>
+                    <button mat-raised-button class="but">EDIT</button>
                 </a>
 
-                <button mat-raised-button color="primary" (click)="onDeleteAssignment()">DELETE</button>
+                <button mat-raised-button class="but" (click)="onDeleteAssignment()">DELETE</button>
         </mat-card-actions>
       </mat-card>
 }

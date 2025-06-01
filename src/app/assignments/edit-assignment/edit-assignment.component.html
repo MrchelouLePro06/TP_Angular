@@ -17,11 +17,16 @@
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
       <mat-form-field>
+        <input matInput placeholder="Edition des remarques" 
+               [(ngModel)]="remarque" 
+               name="remarque">
+      </mat-form-field>
+      <mat-form-field>
         <input matInput type="number" placeholder="Note" 
                [(ngModel)]="note" 
                name="note">
       </mat-form-field>
-      <button mat-raised-button color="primary" [disabled]="!nomAssignment || !dateDeRendu">
+      <button mat-raised-button class="btn-sauver" [disabled]="!nomAssignment || !dateDeRendu">
         Sauver
       </button>
     </form>

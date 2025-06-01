@@ -29,6 +29,7 @@ export class EditAssignmentComponent implements OnInit {
   nomAssignment = '';
   dateDeRendu?: Date = undefined;
   note?: number;
+  remarque?: string;
  
   constructor(
     private assignmentsService: AssignmentsService,
@@ -48,6 +49,7 @@ export class EditAssignmentComponent implements OnInit {
         this.nomAssignment = this.assignment.nom;
         this.dateDeRendu = this.assignment.dateDeRendu;
         this.note = this.assignment.note;
+        this.remarque = this.assignment.remarque;
       }
     });
   }
@@ -58,6 +60,7 @@ export class EditAssignmentComponent implements OnInit {
     this.assignment.nom = this.nomAssignment;
     this.assignment.dateDeRendu = this.dateDeRendu;
     this.assignment.note = this.note;
+    this.assignment.remarque = this.remarque;
     this.assignmentsService
       .updateAssignment(this.assignment)
       .subscribe((message) => {

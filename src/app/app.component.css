@@ -1,6 +1,5 @@
 .custom-toolbar {
-    background-color: #4caf50;
-    color: red;
+    background: linear-gradient(to right, #1c77e0, rgb(00, 89, 194));
 }
 .spacer {
     flex: 1 1 auto;
@@ -9,13 +8,35 @@
 .toolbar-title {
     margin-left: auto;
     margin-right: auto;
+    color: rgb(231, 217, 217);
 }
 
 mat-sidenav-container {
     height: 100%;
-    background-color: #ffffff;
+    background-color: rgb(231, 217, 217);
 }
-mat-sidenav{
+mat-sidenav {
     width: 300px;
-    background-color: #c28e8e;
+    background: linear-gradient(to left, #C4C5C2, rgb(199, 188, 188));
+}
+
+
+span {
+    font-family: sans-serif;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+}
+
+a {
+    width: 80%;
+    align-items: center;
+    margin-left : 20px;
+    margin-top : 10px;
+}
+
+.icon {
+  color: rgb(231, 217, 217);
+  font-size: 25px;   /* ajustez la taille Ã votre convenance */
+  width: 25px;       /* optionnel, pour forcer le conteneur */
+  height: 25px;      /* optionnel, pour forcer le conteneur */
 }

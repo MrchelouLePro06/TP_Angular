@@ -1,3 +1,8 @@
+h1 {
+    margin-left : 50px ;
+    margin-bottom : 30px ;
+}
+
 .containerBoutons {
     display:flex;
     /* Aligne children horizontalement */
@@ -8,3 +13,32 @@
     margin: 10px;
     
 }
+
+mat-card-title {
+    margin-bottom: 2px;
+}
+
+mat-card-subtitle {
+    margin-bottom: 10px;
+}
+
+mat-card {
+    background-color: rgb(220, 210, 210);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+mat-card-title {
+    color: black;
+    font-weight: bold;
+}
+
+.card {
+    margin-left : 50px;
+}
+
+.but {
+    background-color: rgb(231, 217, 217);
+    color: black;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+ }

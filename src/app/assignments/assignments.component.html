@@ -41,6 +41,7 @@
                aria-label="Select page"
                (page)="onPageEvent($event)">
 </mat-paginator>
+<div class="table-container">
 <table mat-table [dataSource]="assignments" class="mat-elevation-z8">
 
   <ng-container matColumnDef="nom">
@@ -82,52 +83,4 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="afficheDetail(row)">
   </tr>
 </table>
-
-<!--
-
-
-
-    <mat-list>
-        @for(a of assignments; track a._id) {
-            <nav>
-                <a routerLink="/assignments/{{a._id}}">
-                    <h3 mat-sub-header>{{a.dateDeRendu | date:'d/M/YY'}}</h3>   
-                    <div>
-                        @if(a.rendu) {
-                            <mat-list-item appRendu>
-                                Devoir initulé {{a.nom}} a été rendu.
-                            </mat-list-item>
-                        } @else {
-                            <mat-list-item appNonRendu>
-                                le devoir {{a.nom}} n'a pas été rendu!
-                            </mat-list-item>
-                        }
-                    </div>
-                    <mat-divider></mat-divider>
-                </a>
-            </nav>
-        }
-    </mat-list>
-<h3>Ici en tableau</h3>
-<table>
-    <thead>
-        <tr>
-            <th>Nom</th>
-            <th>Date de rendu</th>
-            <th>Rendu</th>
-        </tr>
-    </thead>
-    <tbody>
-        @for(a of assignments; track a._id) {
-        <tr>
-            <td>{{a.nom}}</td>
-            <td>{{a.dateDeRendu|date:'d/M/YY'}}</td>
-            <td>{{a.rendu}}</td>
-        </tr>
-        }
-    </tbody>
-
-</table>
-
-
--->
+</div>

@@ -1,29 +1,29 @@
 <mat-toolbar class="custom-toolbar" *ngIf="showToolbar">
   <mat-toolbar-row>
-    <span class="toolbar-title">My Application</span>
+    <span class="toolbar-title">Assignments Application</span>
     <span class="spacer"></span>
   </mat-toolbar-row>
   <mat-toolbar-row>
     <button mat-button routerLink="/home">
-      <mat-icon>home</mat-icon>
+      <mat-icon class="icon">home</mat-icon>
     </button>
     <button mat-button (click)="opened = !opened">
-      <mat-icon>menu</mat-icon>
+      <mat-icon class="icon">menu</mat-icon>
     </button>  
   </mat-toolbar-row>
 </mat-toolbar>
 
 <mat-sidenav-container>
   <mat-sidenav [(opened)]="opened" mode="push" position="start">
-    <mat-list>
-      <mat-list-item *ngIf="isAdmin"><a routerLink="/add">Ajouter un Devoir</a></mat-list-item>
-    </mat-list>
-    <mat-list>
-      <mat-list-item><a (click)="Logout()">Déconnection</a></mat-list-item>
-    </mat-list>
+    <mat-nav-list>
+      <a mat-list-item *ngIf="isAdmin" routerLink="/add">
+        <span>Ajouter un Devoir</span>
+      </a>
+
+      <a mat-list-item (click)="Logout()">
+        <span>DÃ©connexion</span>
+      </a>
+      </mat-nav-list>
   </mat-sidenav>
   <router-outlet></router-outlet>
 </mat-sidenav-container>
-
-
-
