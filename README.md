@@ -17,6 +17,6 @@ Pour lancer le programme :
 npm run dev
 ```
 
-Pour ce connecter en admin : 
-username : admin
-password : admin
+Pour ce connecter en admin : \
+username : admin \
+password : admin \
