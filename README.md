@@ -16,3 +16,7 @@ Pour lancer le programme :
 ```bash
 npm run dev
 ```
+
+Pour ce connecter en admin : 
+username : admin
+password : admin
